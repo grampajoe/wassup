@@ -1,0 +1,11 @@
+{
+  "name": "wassup",
+  "version": "0.0.0",
+  "description": "Is the server down?",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joe Friedl <joe@joefriedl.net>",
+  "license": "BSD"
+}
