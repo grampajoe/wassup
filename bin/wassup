@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+var app = require('../wassup/app'),
+    optimist = require('optimist'),
+    argv = optimist
+    .option('h', {
+        alias: 'help',
+    })
+    .option('H', {
+        alias: 'host',
+        default: '127.0.0.1',
+    })
+    .option('p', {
+        alias: 'port',
+        default: 9000,
+    })
+    .argv;
+
+if (argv.help) {
+   optimist.showHelp(); 
+} else {
+    app.listen(argv.port, argv.host);
+    console.log('Wassup server listening at %s:%s...', argv.host, argv.port);
+}
