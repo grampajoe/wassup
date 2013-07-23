@@ -6,7 +6,9 @@
   "license": "BSD",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/grunt-cli/bin/grunt"
+    "test": "./node_modules/grunt-cli/bin/grunt mochaTest",
+    "test-unit": "./node_modules/grunt-cli/bin/grunt mochaTest:unit",
+    "test-functional": "./node_modules/grunt-cli/bin/grunt mochaTest:functional"
   },
   "bin": {
     "wassup": "./bin/wassup"

@@ -10,6 +10,18 @@ module.exports = function(grunt) {
         },
         src: ['test/**/*.js'],
       },
+      unit: {
+        options: {
+          reporter: 'spec',
+        },
+        src: ['test/unit/**/*.js'],
+      },
+      functional: {
+        options: {
+          reporter: 'spec',
+        },
+        src: ['test/functional/**/*.js'],
+      },
     },
   });
 
