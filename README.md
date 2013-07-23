@@ -28,3 +28,9 @@ Binding to a custom host and port is easy:
 Options for the wassup command can be found with:
 
     $ wassup --help
+
+## Tests
+
+To run the tests:
+
+    $ npm test
