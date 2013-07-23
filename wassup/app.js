@@ -1,3 +1,6 @@
+/*
+ * App
+ */
 var express = require('express'),
     app = express(),
     path = require('path');
@@ -8,8 +11,6 @@ app.configure(function() {
   app.set('view options', {layout: false});
 });
 
-app.get('/', function(req, res) {
-  res.render('index');
-});
+require('routes')(app);
 
 module.exports = exports = app;

@@ -1,4 +1,4 @@
 test:
-	./node_modules/mocha/bin/mocha test/functional --reporter nyan
+	./node_modules/mocha/bin/mocha test/{unit,functional} --reporter nyan
 
 .PHONY: test
