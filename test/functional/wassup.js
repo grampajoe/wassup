@@ -12,20 +12,24 @@ describe('the wassup server', function() {
   var server;
   var browser;
 
-  beforeEach(function() {
+  before(function() {
     server = spawn('wassup', ['-H', serverHost, '-p', serverPort]);
     browser = new Browser();
     browser.site = serverURL;
   });
 
-  afterEach(function() {
+  after(function() {
     server.kill();
   });
 
   it('should run', function(done) {
-    browser.visit('/', function() {
-      browser.success.should.be.ok;
-      done();
+    // Wait for some output to avoid race conditions
+    server.stdout.on('data', function() {
+      // Visit the home page
+      browser.visit('/', function() {
+        browser.success.should.be.ok;
+        done();
+      });
     });
   });
 
@@ -39,10 +43,11 @@ describe('the wassup server', function() {
     });
 
     it('should let users add and remove a URL', function() {
+      // The user enters a URL and presses "Add URL"
       browser.
-        // The user enters a URL and presses "Add URL"
         fill('new_url', 'http://google.com').
         pressButton('Add URL', function() {
+
           // They see they're on the same page
           browser.location.pathname.should.equal('/');
 
@@ -53,6 +58,7 @@ describe('the wassup server', function() {
 
           // The user clicks on the item's "Delete" button
           browser.clickLink('#urls li:first-child a.delete', function() {
+
             // They see the item is removed
             urlList = browser.document.querySelectorAll('#urls li');
             urlList.should.have.length(0, 'List should have no URLs');
