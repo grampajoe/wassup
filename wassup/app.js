@@ -11,6 +11,6 @@ app.configure(function() {
   app.set('view options', {layout: false});
 });
 
-require('routes')(app);
+require('./routes')(app);
 
 module.exports = exports = app;

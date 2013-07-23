@@ -13,7 +13,7 @@ describe('the wassup server', function() {
   var browser;
 
   beforeEach(function() {
-    server = spawn('wassup', ['-H', serverHost, '-p ', serverPort]);
+    server = spawn('wassup', ['-H', serverHost, '-p', serverPort]);
     browser = new Browser();
     browser.site = serverURL;
   });
@@ -29,7 +29,7 @@ describe('the wassup server', function() {
     });
   });
 
-  describe('the home page', function() {
+  describe('home page', function() {
     beforeEach(function(done) {
       browser.visit('/').then(done, done);
     });
