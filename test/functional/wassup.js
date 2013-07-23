@@ -48,14 +48,14 @@ describe('the wassup server', function() {
 
           // And see the new URL as the first item on the list
           var urlList = browser.document.querySelectorAll('#urls li');
-          urlList.should.have.length(1);
+          urlList.should.have.length(1, 'List should have 1 URL');
           urlList[0].textContent.should.match(/http\:\/\/google\.com/);
 
           // The user clicks on the item's "Delete" button
           browser.clickLink('#urls li:first-child a.delete', function() {
             // They see the item is removed
             urlList = browser.document.querySelectorAll('#urls li');
-            urlList.should.have.length(0);
+            urlList.should.have.length(0, 'List should have no URLs');
           });
         });
     });
