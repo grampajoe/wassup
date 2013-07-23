@@ -42,7 +42,19 @@ describe('the wassup server', function() {
       browser.text('title').should.match(/Wassup/);
     });
 
-    it('should let users add and remove a URL', function() {
+    // Check that a URL is in the list
+    function checkForURL(url) {
+        var urlList = browser.document.querySelectorAll('#urls li');
+        for (var i = 0; i < urlList.length; i++) {
+          if (urlList[i].textContent.indexOf(url) !== -1) {
+            return true;
+          }
+        }
+
+        return false;
+    }
+
+    it('should let users add URLs', function(done) {
       // The user enters a URL and presses "Add URL"
       browser.
         fill('new_url', 'http://google.com').
@@ -52,17 +64,18 @@ describe('the wassup server', function() {
           browser.location.pathname.should.equal('/');
 
           // And see the new URL as the first item on the list
-          var urlList = browser.document.querySelectorAll('#urls li');
-          urlList.should.have.length(1, 'List should have 1 URL');
-          urlList[0].textContent.should.match(/http\:\/\/google\.com/);
+          checkForURL('http://google.com').should.be.ok;
 
-          // The user clicks on the item's "Delete" button
-          browser.clickLink('#urls li:first-child a.delete', function() {
+          // They add a second URL
+          browser.fill('new_url', 'http://fark.com').
+            pressButton('Add URL', function() {
 
-            // They see the item is removed
-            urlList = browser.document.querySelectorAll('#urls li');
-            urlList.should.have.length(0, 'List should have no URLs');
-          });
+              // And see it in the list along with the first one
+              checkForURL('http://fark.com').should.be.ok;
+              checkForURL('http://google.com').should.be.ok;
+
+              done();
+            });
         });
     });
   });
