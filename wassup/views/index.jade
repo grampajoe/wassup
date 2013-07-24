@@ -7,8 +7,8 @@ block content
 
   ul#urls
     each url in urls
-      li
-        span.url #{url}
-        form(method='POST', action='/urls/' + encodeURIComponent(url))
+      li(class=url.status)
+        span.url #{url.url}
+        form(method='POST', action='/urls/' + encodeURIComponent(url.url))
           input(type='hidden', name='_method', value='DELETE')
           input(type='submit', name='delete', value='Delete')
