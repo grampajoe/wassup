@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  form(method='POST')
+  form(method='POST', action='/urls/')
     input(type='text', name='new_url')
     input(type='submit', value='Add URL')
 
