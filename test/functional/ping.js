@@ -1,26 +1,65 @@
 /*
  * Functional tests for pinging hosts
  */
+require('should');
+var Browser = require('zombie');
+var utils = require('./utils');
+
+
 describe('pings', function() {
+  var server;
+  var upServer;
+  var downServer;
+  var browser;
+
+  before(function(done) {
+    browser = new Browser();
+    browser.site = utils.serverURL;
+
+    server = utils.startServer(function() {
+      upServer = utils.startSimpleServer(9092, done);
+    });
+  });
+
+  beforeEach(function(done) {
+    browser.visit('/').then(done, done);
+  });
+
+  after(function() {
+    server.kill();
+  });
+
   it('should show whether a URL is up or down', function(done) {
-    // The user goes to the home page
+    // The user adds a URL that's expected to be up
+    browser.fill('new_url', 'http://localhost:9092').
+      pressButton('Add URL', function() {
 
-    // They add a URL that's expected to be up
+        // And see it on the page, marked as "up"
+        var items = browser.document.querySelectorAll('#urls li');
+        var url = items[0].querySelector('.url').textContent;
+        url.should.include('http://localhost:9092')
+        items[0].className.should.include('up');
 
-    // And see it on the page, marked as "up"
+        // Next, they add a URL that's not expected to be up
+        browser.fill('new_url', 'http://localhost:9093').
+          pressButton('Add URL', function() {
 
-    // Next, they add a URL that's not expected to be up
+            // They see it on the page, marked as "down"
+            var items = browser.document.querySelectorAll('#urls li');
+            var url = items[1].querySelector('.url').textContent;
+            url.should.include('http://localhost:9093');
+            items[1].className.should.include('down');
 
-    // They see it on the page, marked as "down"
+            // The first URL goes down!
 
-    // The first URL goes down!
+            // It's now marked as "down"
 
-    // It's now marked as "down"
+            // The second URL comes up!
 
-    // The second URL comes up!
+            // It's now marked as "up"
 
-    // It's now marked as "up"
-
-    throw new Error('Finish the test!');
+            done(new Error('Finish the test!'));
+          });
+      });
   });
 });

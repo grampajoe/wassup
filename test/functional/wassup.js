@@ -21,8 +21,8 @@ describe('the wassup server', function() {
     return items;
   }
 
-  before(function() {
-    server = utils.startServer();
+  before(function(done) {
+    server = utils.startServer(done);
     browser = new Browser();
     browser.site = utils.serverURL;
   });
@@ -32,13 +32,10 @@ describe('the wassup server', function() {
   });
 
   it('should run', function(done) {
-    // Wait for some output to avoid race conditions
-    server.stdout.on('data', function() {
-      // Visit the home page
-      browser.visit('/', function() {
-        browser.success.should.be.ok;
-        done();
-      });
+    // Visit the home page
+    browser.visit('/', function() {
+      browser.success.should.be.ok;
+      done();
     });
   });
 
