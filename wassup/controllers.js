@@ -1,7 +1,9 @@
 /*
  * Controllers
  */
-var index = function(req, res) {
+exports.urls = [];
+
+exports.index = function(req, res) {
   if (req.body && 'new_url' in req.body) {
     exports.urls.push(req.body.new_url);
 
@@ -11,7 +13,7 @@ var index = function(req, res) {
   res.render('index', {urls: exports.urls});
 };
 
-var delete_url = function(req, res) {
+exports.delete_url = function(req, res) {
   var url = req.params[0];
 
   var i = exports.urls.indexOf(url);
@@ -19,7 +21,3 @@ var delete_url = function(req, res) {
 
   res.redirect('/');
 };
-
-module.exports.index = exports.index = index;
-module.exports.delete_url = exports.delete_url = delete_url;
-module.exports.urls = exports.urls = [];
