@@ -2,16 +2,15 @@
  * Functional tests
  */
 require('should');
-var spawn = require('child_process').spawn;
 var Browser = require('zombie');
-var serverHost = '127.0.0.1';
-var serverPort = '9091';
-var serverURL = 'http://' + serverHost + ':' + serverPort;
+var utils = require('./utils');
+
 
 describe('the wassup server', function() {
   var server;
   var browser;
 
+  // Get a list of URLs shown on the page
   function getItems() {
     var urlList = browser.document.querySelectorAll('#urls .url');
     var items = [];
@@ -23,9 +22,9 @@ describe('the wassup server', function() {
   }
 
   before(function() {
-    server = spawn('wassup', ['-H', serverHost, '-p', serverPort]);
+    server = utils.startServer();
     browser = new Browser();
-    browser.site = serverURL;
+    browser.site = utils.serverURL;
   });
 
   after(function() {
