@@ -13,7 +13,7 @@ describe('the wassup server', function() {
   var browser;
 
   function getItems() {
-    var urlList = browser.document.querySelectorAll('#urls li');
+    var urlList = browser.document.querySelectorAll('#urls .url');
     var items = [];
     for (var i = 0; i < urlList.length; i++) {
       items.push(urlList[i].textContent.trim());
@@ -49,10 +49,10 @@ describe('the wassup server', function() {
     });
 
     it('should have a cool title', function() {
-      browser.text('title').should.match(/Wassup/);
+      browser.text('title').should.include('Wassup');
     });
 
-    it('should let users add URLs', function(done) {
+    it('should let users add and remove URLs', function(done) {
       // The user enters a URL and presses "Add URL"
       browser.
         fill('new_url', 'http://google.com').
@@ -70,10 +70,26 @@ describe('the wassup server', function() {
 
               // And see it in the list along with the first one
               var items = getItems();
+              items.should.have.length(2);
               items.should.include('http://fark.com');
               items.should.include('http://google.com');
 
-              done();
+              // The user clicks the delete button on the first item
+              var firstDelete = '#urls li:first-child .delete';
+              browser.clickLink(firstDelete, function() {
+
+                // And sees that it's gone
+                getItems().should.have.length(1);
+
+                // They click on the last item's delete link
+                browser.clickLink(firstDelete, function() {
+
+                  // And see that it's gone, too
+                  getItems().should.have.length(0);
+
+                  done();
+                });
+              });
             });
         });
     });

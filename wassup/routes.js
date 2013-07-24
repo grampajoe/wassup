@@ -7,4 +7,5 @@ var controllers = require('./controllers');
 module.exports = exports = function(app) {
   app.get('/', controllers.index);
   app.post('/', controllers.index);
+  app.get(/^\/delete\/(.*)/, controllers.delete_url);
 };

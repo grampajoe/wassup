@@ -6,5 +6,7 @@ block content
     input(type='submit', value='Add URL')
 
   ul#urls
-    if new_url
-      li #{new_url}
+    each url in urls
+      li
+        span.url #{url}
+        a.delete(href='/delete/' + encodeURIComponent(url)) Delete
