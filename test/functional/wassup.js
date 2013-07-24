@@ -75,14 +75,14 @@ describe('the wassup server', function() {
               items.should.include('http://google.com');
 
               // The user clicks the delete button on the first item
-              var firstDelete = '#urls li:first-child .delete';
-              browser.clickLink(firstDelete, function() {
+              var firstDelete = '#urls li:first-child input[type=submit]';
+              browser.pressButton(firstDelete, function() {
 
                 // And sees that it's gone
                 getItems().should.have.length(1);
 
                 // They click on the last item's delete link
-                browser.clickLink(firstDelete, function() {
+                browser.pressButton(firstDelete, function() {
 
                   // And see that it's gone, too
                   getItems().should.have.length(0);

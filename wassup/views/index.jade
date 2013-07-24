@@ -9,4 +9,6 @@ block content
     each url in urls
       li
         span.url #{url}
-        a.delete(href='/delete/' + encodeURIComponent(url)) Delete
+        form(method='POST', action='/urls/' + encodeURIComponent(url))
+          input(type='hidden', name='_method', value='DELETE')
+          input(type='submit', name='delete', value='Delete')
