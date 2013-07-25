@@ -4,7 +4,6 @@
   "description": "Is the server down?",
   "author": "Joe Friedl <joe@joefriedl.net>",
   "license": "BSD",
-  "main": "index.js",
   "scripts": {
     "test": "./node_modules/grunt-cli/bin/grunt mochaTest",
     "test-unit": "./node_modules/grunt-cli/bin/grunt mochaTest:unit",
