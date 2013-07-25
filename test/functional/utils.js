@@ -10,7 +10,11 @@ exports.startServer = function(callback) {
     var server = spawn('wassup', ['-H', serverHost, '-p', serverPort]);
 
     if (typeof(callback) === 'function') {
-      server.stdout.on('data', function() { callback(); });
+      // Call the callback after the first chunk of output
+      server.stdout.on('data', function dataCallback() {
+        server.stdout.removeListener('data', dataCallback);
+        callback();
+      });
     }
 
     return server;

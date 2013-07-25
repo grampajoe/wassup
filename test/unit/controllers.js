@@ -162,7 +162,7 @@ describe('delete_url', function() {
     controllers.urls = [];
   });
 
-  it('should delete a given URL', function() {
+  it('should delete a given URL', function(done) {
     var req = {params: ['http://google.com']};
     var res = new FakeResponse();
     controllers.urls = [
@@ -172,10 +172,15 @@ describe('delete_url', function() {
 
     controllers.delete_url(req, res);
 
-    controllers.urls.should.eql([
-      {'url': 'http://fark.com', 'status': 'up'},
-    ]);
+    res.then(function() {
 
-    res.location.should.eql('/');
+      controllers.urls.should.eql([
+        {'url': 'http://fark.com', 'status': 'up'},
+      ]);
+
+      res.location.should.eql('/');
+
+      done();
+    });
   });
 });
