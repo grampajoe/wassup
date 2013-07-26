@@ -62,16 +62,20 @@ describe('index', function() {
     nock.cleanAll();
   });
 
-  it('should render the index view', function() {
+  it('should render the index view', function(done) {
     var req = {};
     var res = new FakeResponse();
 
     controllers.index(req, res);
 
-    res.view.should.equal('index');
+    res.then(function() {
+      res.view.should.equal('index');
+
+      done();
+    });
   });
 
-  it('should display data', function() {
+  it('should display data', function(done) {
     var req = {};
     var res = new FakeResponse();
     controllers.urls = [
@@ -80,10 +84,14 @@ describe('index', function() {
 
     controllers.index(req, res);
 
-    res.view.should.eql('index')
-    res.data.should.eql({urls: [
-      {'url': 'http://google.com', 'status': 'up'},
-    ]});
+    res.then(function() {
+      res.view.should.eql('index')
+      res.data.should.eql({urls: [
+        {'url': 'http://google.com', 'status': 'up'},
+      ]});
+
+      done();
+    });
   });
 
   it('should save POSTed data', function(done) {
@@ -130,7 +138,7 @@ describe('index', function() {
     });
   });
 
-  it('should ping URLS when they are added', function() {
+  it('should ping URLS when they are added', function(done) {
     var req = {body: {}};
     var res = new FakeResponse();
 
@@ -152,7 +160,26 @@ describe('index', function() {
         controllers.urls.should.eql([
           {'url': 'http://what-if-this-was-real.fake.com', 'status': 'down'},
         ]);
+
+        done();
       });
+    });
+  });
+
+  it('should ping existing URLs on request', function(done) {
+    var req = {};
+    var res = new FakeResponse();
+
+    controllers.urls = [
+      {'url': 'http://up.com', 'status': 'down'},
+    ];
+
+    controllers.index(req, res);
+
+    res.then(function() {
+      controllers.urls[0].status.should.eql('up');
+
+      done();
     });
   });
 });

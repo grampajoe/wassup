@@ -13,6 +13,7 @@ module.exports = function(grunt) {
       functional: {
         options: {
           reporter: 'spec',
+          timeout: 20000,
         },
         src: ['test/functional/**/*.js'],
       },

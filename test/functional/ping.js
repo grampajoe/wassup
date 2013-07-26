@@ -27,6 +27,14 @@ describe('pings', function() {
 
   after(function() {
     server.kill();
+
+    try {
+      upServer.close();
+    } catch(e) {}
+
+    try {
+      downServer.close();
+    } catch(e) {}
   });
 
   it('should show whether a URL is up or down', function(done) {
@@ -51,14 +59,25 @@ describe('pings', function() {
             items[1].className.should.include('down');
 
             // The first URL goes down!
+            upServer.close();
 
             // It's now marked as "down"
+            browser.visit('/', function() {
+              items = browser.document.querySelectorAll('#urls li');
+              items[0].className.should.include('down');
 
-            // The second URL comes up!
+              // The second URL comes up!
+              var downServer = utils.startSimpleServer(9093, function() {
+                browser.visit('/', function() {
 
-            // It's now marked as "up"
+                  // It's now marked as "up"
+                  items = browser.document.querySelectorAll('#urls li');
+                  items[1].className.should.include('up');
 
-            done(new Error('Finish the test!'));
+                  done();
+                });
+              });
+            });
           });
       });
   });
