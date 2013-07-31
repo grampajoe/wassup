@@ -36,6 +36,10 @@ FakeResponse.prototype.then = function(callback) {
   }
 };
 
+FakeResponse.prototype.reset = function() {
+  this.ended = false;
+};
+
 FakeResponse.prototype.render = function(view, data) {
   this.view = view;
   this.data = data;
@@ -109,7 +113,7 @@ describe('index', function() {
       res.location.should.eql('/');
 
       req.body.new_url = 'http://fark.com';
-      res = new FakeResponse();
+      res.reset();
       controllers.index(req, res);
 
       res.then(function() {
@@ -133,51 +137,6 @@ describe('index', function() {
 
     res.then(function() {
       controllers.urls.should.eql([]);
-
-      done();
-    });
-  });
-
-  it('should ping URLS when they are added', function(done) {
-    var req = {body: {}};
-    var res = new FakeResponse();
-
-    req.body.new_url = 'http://up.com';
-    controllers.index(req, res);
-
-    res.then(function() {
-      controllers.urls.should.eql([
-        {'url': 'http://up.com', 'status': 'up'},
-      ]);
-
-      // Try a URL that won't return a response
-      controllers.urls = [];
-      req.body.new_url = 'http://what-if-this-was-real.fake.com';
-      res = new FakeResponse();
-      controllers.index(req, res);
-
-      res.then(function() {
-        controllers.urls.should.eql([
-          {'url': 'http://what-if-this-was-real.fake.com', 'status': 'down'},
-        ]);
-
-        done();
-      });
-    });
-  });
-
-  it('should ping existing URLs on request', function(done) {
-    var req = {};
-    var res = new FakeResponse();
-
-    controllers.urls = [
-      {'url': 'http://up.com', 'status': 'down'},
-    ];
-
-    controllers.index(req, res);
-
-    res.then(function() {
-      controllers.urls[0].status.should.eql('up');
 
       done();
     });
