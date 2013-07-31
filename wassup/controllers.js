@@ -19,33 +19,10 @@ exports.index = function(req, res) {
 
     exports.urls.push(url);
 
-    request(url.url, function(error, response, body) {
-      if (!error) {
-        url.status = 'up';
-      }
 
-      res.redirect('/');
-    });
+    res.redirect('/');
   } else {
-    // Make an array of request functions bound to each url
-    var urlTests = exports.urls.map(function(url) {
-      return function(done) {
-        request(url.url, function(error, response, body) {
-          if (!error) {
-            url.status = 'up';
-          } else {
-            url.status = 'down';
-          }
-
-          done();
-        });
-      };
-    });
-
-    // Make requests to each url, then render a response when they're done
-    async.parallel(urlTests, function() {
-      res.render('index', {urls: exports.urls});
-    });
+    res.render('index', {urls: exports.urls});
   }
 };
 

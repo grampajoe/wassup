@@ -55,15 +55,8 @@ FakeResponse.prototype.redirect = function(url) {
 
 
 describe('index', function() {
-  beforeEach(function() {
-    nock('http://up.com').get('/').reply(200, 'OK');
-    nock('http://google.com').get('/').reply(200, 'OK');
-    nock('http://fark.com').get('/').reply(200, 'OK');
-  });
-
   afterEach(function() {
     controllers.urls = [];
-    nock.cleanAll();
   });
 
   it('should render the index view', function(done) {
@@ -107,7 +100,7 @@ describe('index', function() {
 
     res.then(function() {
       controllers.urls.should.eql([
-        {'url': 'http://google.com', 'status': 'up'},
+        {'url': 'http://google.com', 'status': 'down'},
       ]);
 
       res.location.should.eql('/');
@@ -118,8 +111,8 @@ describe('index', function() {
 
       res.then(function() {
         controllers.urls.should.eql([
-          {'url': 'http://google.com', 'status': 'up'},
-          {'url': 'http://fark.com', 'status': 'up'},
+          {'url': 'http://google.com', 'status': 'down'},
+          {'url': 'http://fark.com', 'status': 'down'},
         ]);
 
         res.location.should.eql('/');
