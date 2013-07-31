@@ -7,7 +7,7 @@ var serverURL = exports.serverURL = 'http://' + serverHost + ':' + serverPort;
 
 // Start the Wassup server
 exports.startServer = function(callback) {
-    var server = spawn('wassup', ['-H', serverHost, '-p', serverPort]);
+    var server = spawn('./bin/wassup', ['-H', serverHost, '-p', serverPort]);
 
     if (typeof(callback) === 'function') {
       // Call the callback after the first chunk of output
