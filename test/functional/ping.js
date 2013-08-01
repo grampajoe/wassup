@@ -30,7 +30,7 @@ describe('pings', function() {
 
     // And see it on the page, marked as "up"
 
-    // Next, they add a URL that's not expected to be up
+    // Next, they add a URL that's expected to be down
 
     // They see it on the page, marked as "down"
 
