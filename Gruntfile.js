@@ -10,6 +10,12 @@ module.exports = function(grunt) {
         },
         src: ['test/unit/**/*.js'],
       },
+      integration: {
+        options: {
+          reporter: 'spec',
+        },
+        src: ['test/integration/**/*.js'],
+      },
       functional: {
         options: {
           reporter: 'spec',
