@@ -1,6 +1,7 @@
 /*
  * Controller unit tests
  */
+
 require('should');
 var sinon = require('sinon');
 var nock = require('nock');
